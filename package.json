@@ -9,7 +9,7 @@
     "url": "https://github.com/moarwick/elm-webpack-starter"
   },
   "scripts": {
-    "prestart": "npm install",
+    "prestart": "npm install && elm package install",
     "start": "webpack-dev-server --hot --inline --content-base src/",
     "build": "rimraf dist && webpack",
     "watch": "webpack --watch"
