@@ -6,6 +6,9 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (onInput)
 
 
+-- APP
+
+
 main : Program Never
 main =
     App.beginnerProgram { model = model, view = view, update = update }
@@ -17,14 +20,13 @@ main =
 
 type alias Model =
     { name : String
-    , password : String
-    , passwordAgain : String
+    , description : String
     }
 
 
 model : Model
 model =
-    Model "" "" ""
+    Model "" ""
 
 
 
@@ -33,8 +35,7 @@ model =
 
 type Msg
     = Name String
-    | Password String
-    | PasswordAgain String
+    | Description String
 
 
 update : Msg -> Model -> Model
@@ -43,11 +44,8 @@ update msg model =
         Name name ->
             { model | name = name }
 
-        Password password ->
-            { model | password = password }
-
-        PasswordAgain password ->
-            { model | passwordAgain = password }
+        Description description ->
+            { model | description = description }
 
 
 
@@ -56,21 +54,18 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-    div []
-        [ input [ type' "text", placeholder "Name", onInput Name ] []
-        , input [ type' "password", placeholder "Password", onInput Password ] []
-        , input [ type' "password", placeholder "Re-enter Password", onInput PasswordAgain ] []
-        , viewValidation model
+    div [ class "container" ]
+        [ Html.form
+            [ class "form-horizontal" ]
+            [ h1 [ class "text-center" ] [ text "Dyform" ]
+            , div [ class "form-group" ]
+                [ label [ for "name" ] [ text "Name" ]
+                , input [ id "name", type' "text", class "form-control", onInput Name ] []
+                ]
+            , div [ class "form-group" ]
+                [ label [ for "description" ] [ text "Description" ]
+                , input [ id "description", type' "text", class "form-control", onInput Description ] []
+                ]
+            , button [ class "btn btn-primary" ] [ text "Submit" ]
+            ]
         ]
-
-
-viewValidation : Model -> Html msg
-viewValidation model =
-    let
-        ( color, message ) =
-            if model.password == model.passwordAgain then
-                ( "green", "OK" )
-            else
-                ( "red", "Passwords do not match!" )
-    in
-        div [ style [ ( "color", color ) ] ] [ text message ]
